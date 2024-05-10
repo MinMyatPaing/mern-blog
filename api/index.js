@@ -26,7 +26,7 @@ app.use("/api/auth", authRoutes);
 app.use((error, req, res, next) => {
   const statusCode = error.statusCode || 500;
   const message = error.message || "Something went wrong!";
-  res.status(statusCode).json({ message: message });
+  res.status(statusCode).json({ success: false, statusCode, message: message });
 });
 
 app.listen(3000, () => {
