@@ -42,7 +42,7 @@ export default function DashProfile() {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         setImageFileUploadingProgress(progress.toFixed(0));
       },
-      (error) => {
+      (_) => {
         setImageFileUploadError(
           "Could not upload image! please check your file size (maximum 2MB)"
         );
