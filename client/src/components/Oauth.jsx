@@ -26,7 +26,7 @@ export default function Oauth() {
           googlePhotoUrl: result.user.photoURL,
         }),
       });
-      const data = res.json();
+      const data = await res.json();
       if (res.ok) {
         dispatch(signInSuccess(data));
         navigate("/");
