@@ -5,6 +5,7 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
 import { toggleTheme } from "../redux/theme/themeSlice";
+import { signOutSuccess } from "../redux/slices/userSlice";
 
 export default function Header() {
   const path = useLocation().pathname;
@@ -14,6 +15,23 @@ export default function Header() {
 
   const toggleThemeHandler = () => {
     dispatch(toggleTheme());
+  };
+
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -42,7 +60,7 @@ export default function Header() {
           pill
           onClick={toggleThemeHandler}
         >
-          {theme === 'light' ? <FaMoon /> : <FaSun />}
+          {theme === "light" ? <FaMoon /> : <FaSun />}
         </Button>
         {currentUser ? (
           <Dropdown
@@ -66,7 +84,7 @@ export default function Header() {
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <Dropdown.Item>Sign Out</Dropdown.Item>
+            <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
           </Dropdown>
         ) : (
           <Link to="sign-in">
