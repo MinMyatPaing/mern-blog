@@ -40,6 +40,7 @@ export default function CreatePost() {
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
           setImageUploadProgress(progress.toFixed(0));
         },
+        // eslint-disable-next-line no-unused-vars
         (error) => {
           setImageUploadError('Image upload failed');
           setImageUploadProgress(null);
@@ -79,6 +80,7 @@ export default function CreatePost() {
         navigate(`/post/${data.slug}`);
       }
     } catch (error) {
+      console.log(error);
       setPublishError('Something went wrong');
     }
   };
