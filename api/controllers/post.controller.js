@@ -31,7 +31,7 @@ export const createPost = async (req, res, next) => {
 export const getPosts = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 0;
+    const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.order === "asc" ? 1 : -1;
 
     const posts = await Post.find({
@@ -68,6 +68,19 @@ export const getPosts = async (req, res, next) => {
       totalPosts,
       lastMonthPosts,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deletePost = async (req, res, next) => {
+  try {
+    if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+      throwError(403, "Not authorized!");
+    }
+
+    await Post.findByIdAndDelete(req.params.postId);
+    res.status(200).json("Post deleted successfully");
   } catch (error) {
     next(error);
   }
