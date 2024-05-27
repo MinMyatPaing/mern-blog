@@ -76,6 +76,7 @@ export const signout = (req, res, next) => {
 };
 
 export const getUsers = async (req, res, next) => {
+  console.log("req get users");
   try {
     if (!req.user.isAdmin) {
       throwError(403, "Not authorized");
@@ -99,7 +100,7 @@ export const getUsers = async (req, res, next) => {
     const totalUsers = await User.countDocuments();
     const now = new Date();
     const oneMonthAgo = new Date(
-      now.getFullYear,
+      now.getFullYear(),
       now.getMonth() - 1,
       now.getDate()
     );
@@ -111,6 +112,7 @@ export const getUsers = async (req, res, next) => {
       .status(200)
       .json({ users: omitPasswordUsers, totalUsers, lastMonthUsers });
   } catch (error) {
+    console.log(error);
     next(error);
   }
 };
